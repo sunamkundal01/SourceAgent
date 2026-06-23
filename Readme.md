@@ -228,7 +228,4 @@ to the FastAPI app through `api/index.py`.
 Contributions are welcome. Fork the repository, create a feature branch, make
 your changes, and open a pull request with a clear description of what changed.
 
-## License
 
-Add a license file before using this project in production or accepting external
-contributions.
