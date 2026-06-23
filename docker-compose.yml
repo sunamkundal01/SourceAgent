@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "9999:9999"
+
+  frontend:
+    build: .
+    command: python -m http.server 8501 -d public
+    depends_on:
+      - backend
+    ports:
+      - "8501:8501"
