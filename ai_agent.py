@@ -1,4 +1,5 @@
 import ast
+import inspect
 import json
 
 from dotenv import load_dotenv
@@ -26,6 +27,23 @@ def _build_system_prompt(system_prompt, memory_summary):
             "Use this memory only when it helps answer the user."
         )
     return prompt
+
+
+def _create_react_agent(llm, tools, system_prompt):
+    agent_kwargs = {
+        "model": llm,
+        "tools": tools,
+    }
+    create_agent_params = inspect.signature(create_react_agent).parameters
+
+    if "prompt" in create_agent_params:
+        agent_kwargs["prompt"] = system_prompt
+    elif "state_modifier" in create_agent_params:
+        agent_kwargs["state_modifier"] = system_prompt
+    elif "messages_modifier" in create_agent_params:
+        agent_kwargs["messages_modifier"] = system_prompt
+
+    return create_react_agent(**agent_kwargs)
 
 
 def _parse_tool_content(content):
@@ -74,10 +92,10 @@ def get_response_from_ai_agent(
 ):
     llm = ChatGroq(model=model_name)
     tools = [TavilySearchResults(max_results=3)] if allow_search else []
-    agent = create_react_agent(
-        model=llm,
+    agent = _create_react_agent(
+        llm=llm,
         tools=tools,
-        state_modifier=_build_system_prompt(system_prompt, memory_summary),
+        system_prompt=_build_system_prompt(system_prompt, memory_summary),
     )
 
     response = agent.invoke({"messages": messages})

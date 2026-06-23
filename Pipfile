@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-langchain-groq = "*"
-langchain-community = "*"
-langgraph = "*"
-pydantic = "*"
-fastapi = "*"
-uvicorn = "*"
-python-dotenv = "*"
+langchain-groq = "==0.2.3"
+langchain-community = "==0.3.14"
+langgraph = "==0.2.64"
+pydantic = "==2.10.5"
+fastapi = "==0.115.6"
+uvicorn = "==0.34.0"
+python-dotenv = "==1.0.1"
 
 [dev-packages]
 
